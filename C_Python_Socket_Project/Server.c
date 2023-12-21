@@ -6,10 +6,12 @@
 #include <netinet/in.h>
 #include <pthread.h>
 
-int main(char *argv[], int argc) {
+void *handle_client(void *arg);
+
+int main() {
     return 0;
 }
 
-void handleConnection() {
+void *handle_client(void *arg) {
 
 }
