@@ -64,5 +64,8 @@ int main() {
 }
 
 void *handle_client(void *arg) {
+    // continuously receive messages from the client and print them. 
+
+    // If the client disconnects, print a disconnect message and exit.
 
 }
