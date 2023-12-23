@@ -29,11 +29,37 @@ int main() {
     server_addr.sin_port = htons(PORT);
 
     // Bind socket to address
+    if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
+        perror("Error binding socket");
+        close(server_socket);
+        exit(EXIT_FAILURE);
+    }
 
     // Listen for connections
+    if (listen(server_socket, 5) == -1) {
+        perror("Error listening for connections");
+        close(server_socket);
+        exit(EXIT_FAILURE);
+    }
+
+    printf("[SERVER] Listening on port %d...\n", PORT);
 
     // Accept and handle incoming connections
+    while (1) {
+        client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &client_len);
+        if (client_socket == -1) {
+            perror("Error accepting connection");
+            continue;
+        }
 
+        pthread_t thread;
+        if (pthread_create(&thread, NULL, handle_client, &client_socket) != 0) {
+            perror("Error creating thread");
+            close(client_socket);
+        }
+    }
+
+    close(server_socket);
     return 0;
 }
 
