@@ -64,6 +64,11 @@ int main() {
 }
 
 void *handle_client(void *arg) {
+    int client_socket = *((int *)arg);
+    char buffer[BUFFER_SIZE];
+
+    printf("[NEW CONNECTION] Client connected.\n");
+
     // continuously receive messages from the client and print them. 
 
     // If the client disconnects, print a disconnect message and exit.
