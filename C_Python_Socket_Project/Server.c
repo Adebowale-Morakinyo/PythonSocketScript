@@ -69,8 +69,17 @@ void *handle_client(void *arg) {
 
     printf("[NEW CONNECTION] Client connected.\n");
 
-    // continuously receive messages from the client and print them. 
+    while (1) {
+        ssize_t recv_size = recv(client_socket, buffer, sizeof(buffer), 0);
+        if (recv_size <= 0) {
+            printf("[DISCONNECT] Client disconnected.\n");
+            break;
+        }
 
-    // If the client disconnects, print a disconnect message and exit.
+        buffer[recv_size] = '\0';
+        printf("[CLIENT] %s", buffer);
+    }
 
+    close(client_socket);
+    pthread_exit(NULL);
 }
